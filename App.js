@@ -2,14 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Flag from './components/Flag'
 import {countries} from './assets/countries'
+import {randomPairs, shuffleArray} from './helper/random.js';
 
 export default function App() {
-  // const random = an array of 6 pairs of numbers
+  const arr = shuffleArray(randomPairs(4, 4))
+  console.log(arr)
+  console.log(countries)
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {random.forEach(num => {
-        return <Flag flag={countries[num]}/>
+      {arr.map(num => {
+        return <Flag flag={countries[num].uri}/>
       })}
     </View>
   );
