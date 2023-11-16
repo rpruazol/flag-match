@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Button,
@@ -6,7 +6,10 @@ import {
   SafeAreaView,
   Text,
   Alert,
-} from 'react-native';
+  Pressable,
+  Image,
+  Animated
+} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,21 +23,55 @@ const styles = StyleSheet.create({
     width: 66,
     height: 58,
   },
+  imageFront: {
+    width: 125,
+    height: 75,
+    position: "absolute"
+  },
+  imageBack: {
+    width: 125,
+    height: 75,
+    backfaceVisibility: "hidden"
+  }
 });
 
 const Flag = () => {
+
+  const flipAnimation = React.useRef(new Animated.Value(0)).current;
+  flipAnimation.addListener(({value}) => flipRotation = value)
+
+  const flipToFrontStyle = {
+    transform: [
+      { rotateY: flipAnimation.interpolate( {
+        inputRange: [0, 180],
+        outputRange: ["0deg", "180deg"]
+      })}
+    ]
+  }
+
+  const flipToBackStyle = {
+    transform: [
+      { rotateY: flipAnimation.interpolate( {
+        inputRange: [0, 180],
+        outputRange: ["180deg", "360deg"]
+      })}
+    ]
+  }
   return (
-    <View>
-    <Text style={styles.title}>
-      The title and onPress handler are required. It is recommended to set
-      accessibilityLabel to help make your app usable by everyone.
-    </Text>
-    <Button
-      title="Press me"
-      onPress={() => Alert.alert('Simple Button pressed')}
-    />
-  </View>
+    <View >
+      <Pressable onPress={() => Alert.alert("Simple Button pressed")}>
+        <Image
+          style={styles.imageFront}
+          source={require("../assets/6wz5zl8p.bmp")}
+        />
+        <Image
+          style={styles.imageBack}
+          source={require("../assets/imur5q7b.bmp")}
+        />
+      </Pressable>
+    </View>
   );
 };
+
 
 export default Flag;
