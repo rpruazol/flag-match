@@ -26,17 +26,18 @@ const styles = StyleSheet.create({
   imageFront: {
     width: 125,
     height: 75,
-    position: "absolute"
+    position: "absolute",
+    margin: 3
   },
   imageBack: {
     width: 125,
     height: 75,
-    backfaceVisibility: "hidden"
+    backfaceVisibility: "hidden",
+    margin: 3
   }
 });
 
 const Flag = (props) => {
-  console.log('HUH')
   const [flipRotation, setFlipRotation] = React.useState(0)
   const flipAnimation = React.useRef(new Animated.Value(0)).current;
   
@@ -82,17 +83,18 @@ const Flag = (props) => {
     }
       ).start();
   }
-  console.log(props.flag.uri)
+  console.log('flipRotation', flipRotation)
   return (
     <View >
       <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
         <Animated.Image
           style={{...styles.imageFront, ...flipToBackStyle}}
-          source={require("../assets/mystery.bmp")}
+          source={props.flag}          
         />
         <Animated.Image
           style={{...styles.imageBack, ...flipToFrontStyle}}
-          source={props.flag.uri}
+          source={require("../assets/mystery.bmp")}
+
         />
       </Pressable>
     </View>
