@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Flag from './components/Flag'
+import {countries} from './assets/countries'
 
+console.log(countries)
 export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Flag/>
+      <Flag flag={countries.america}/>
     </View>
   );
 }

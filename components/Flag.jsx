@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const Flag = () => {
+const Flag = (props) => {
+  console.log('HUH')
   const [flipRotation, setFlipRotation] = React.useState(0)
   const flipAnimation = React.useRef(new Animated.Value(0)).current;
   
@@ -81,17 +82,17 @@ const Flag = () => {
     }
       ).start();
   }
-
+  console.log(props.flag.uri)
   return (
     <View >
       <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
         <Animated.Image
           style={{...styles.imageFront, ...flipToBackStyle}}
-          source={require("../assets/6wz5zl8p.bmp")}
+          source={require("../assets/mystery.bmp")}
         />
         <Animated.Image
           style={{...styles.imageBack, ...flipToFrontStyle}}
-          source={require("../assets/imur5q7b.bmp")}
+          source={props.flag.uri}
         />
       </Pressable>
     </View>
