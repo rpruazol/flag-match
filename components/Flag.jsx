@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Button,
@@ -6,7 +6,10 @@ import {
   SafeAreaView,
   Text,
   Alert,
-} from 'react-native';
+  Pressable,
+  Image,
+  Animated
+} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,21 +23,83 @@ const styles = StyleSheet.create({
     width: 66,
     height: 58,
   },
+  imageFront: {
+    width: 125,
+    height: 75,
+    position: "absolute",
+    margin: 3
+  },
+  imageBack: {
+    width: 125,
+    height: 75,
+    backfaceVisibility: "hidden",
+    margin: 3
+  }
 });
 
-const Flag = () => {
+const Flag = (props) => {
+  const [flipRotation, setFlipRotation] = React.useState(0)
+  const flipAnimation = React.useRef(new Animated.Value(0)).current;
+  
+  flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
+
+  
+
+  const flipToFrontStyle = {
+    transform: [
+      { rotateY: flipAnimation.interpolate( {
+        inputRange: [0, 180],
+        outputRange: ["0deg", "180deg"]
+      })}
+    ]
+  }
+
+  const flipToBackStyle = {
+    transform: [
+      { rotateY: flipAnimation.interpolate( {
+        inputRange: [0, 180],
+        outputRange: ["180deg", "360deg"]
+      })}
+    ]
+  }
+
+  const flipToFront = () => {
+    console.log('flip to front!')
+    Animated.timing( flipAnimation, {
+      toValue: 180,
+      duration: 300,
+      useNativeDriver: true,
+
+    }
+      ).start();
+  }
+
+  const flipToBack = () => {
+    console.log('flip to back!')
+    Animated.timing( flipAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true
+    }
+      ).start();
+  }
+  console.log('flipRotation', flipRotation)
   return (
-    <View>
-    <Text style={styles.title}>
-      The title and onPress handler are required. It is recommended to set
-      accessibilityLabel to help make your app usable by everyone.
-    </Text>
-    <Button
-      title="Press me"
-      onPress={() => Alert.alert('Simple Button pressed')}
-    />
-  </View>
+    <View >
+      <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
+        <Animated.Image
+          style={{...styles.imageFront, ...flipToBackStyle}}
+          source={props.flag}          
+        />
+        <Animated.Image
+          style={{...styles.imageBack, ...flipToFrontStyle}}
+          source={require("../assets/mystery.bmp")}
+
+        />
+      </Pressable>
+    </View>
   );
 };
+
 
 export default Flag;
