@@ -36,9 +36,12 @@ const styles = StyleSheet.create({
 });
 
 const Flag = () => {
-
+  const [flipRotation, setFlipRotation] = React.useState(0)
   const flipAnimation = React.useRef(new Animated.Value(0)).current;
-  flipAnimation.addListener(({value}) => flipRotation = value)
+  
+  flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
+
+  
 
   const flipToFrontStyle = {
     transform: [
@@ -57,15 +60,37 @@ const Flag = () => {
       })}
     ]
   }
+
+  const flipToFront = () => {
+    console.log('flip to front!')
+    Animated.timing( flipAnimation, {
+      toValue: 180,
+      duration: 300,
+      useNativeDriver: true,
+
+    }
+      ).start();
+  }
+
+  const flipToBack = () => {
+    console.log('flip to back!')
+    Animated.timing( flipAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true
+    }
+      ).start();
+  }
+
   return (
     <View >
-      <Pressable onPress={() => Alert.alert("Simple Button pressed")}>
-        <Image
-          style={styles.imageFront}
+      <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
+        <Animated.Image
+          style={{...styles.imageFront, ...flipToBackStyle}}
           source={require("../assets/6wz5zl8p.bmp")}
         />
-        <Image
-          style={styles.imageBack}
+        <Animated.Image
+          style={{...styles.imageBack, ...flipToFrontStyle}}
           source={require("../assets/imur5q7b.bmp")}
         />
       </Pressable>
