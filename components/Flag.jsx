@@ -43,7 +43,7 @@ const Flag = (props) => {
   
   flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
 
-  
+  console.log('flag', `require('https://flagcdn.com/160x120/${props.flag.code}.png')`)
 
   const flipToFrontStyle = {
     transform: [
@@ -89,7 +89,9 @@ const Flag = (props) => {
       <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
         <Animated.Image
           style={{...styles.imageFront, ...flipToBackStyle}}
-          source={props.flag}          
+          source={{
+            uri: `https://flagcdn.com/160x120/${props.flag.code}.png`
+          }}       
         />
         <Animated.Image
           style={{...styles.imageBack, ...flipToFrontStyle}}

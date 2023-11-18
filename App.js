@@ -5,14 +5,15 @@ import {countries} from './assets/countries'
 import {randomPairs, shuffleArray} from './helper/random.js';
 
 export default function App() {
-  const arr = shuffleArray(randomPairs(4, 4))
+  const arr = shuffleArray(randomPairs(4, 307))
   console.log(arr)
   console.log(countries)
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {arr.map(num => {
-        return <Flag flag={countries[num].uri}/>
+        console.log(countries[num])
+        return <Flag flag={countries[num]}/>
       })}
     </View>
   );
