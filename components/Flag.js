@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   StyleSheet,
   Button,
@@ -43,7 +43,7 @@ const Flag = (props) => {
   
   flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
 
-  console.log('flag', `require('https://flagcdn.com/160x120/${props.flag.code}.png')`)
+
 
   const flipToFrontStyle = {
     transform: [
@@ -63,8 +63,8 @@ const Flag = (props) => {
     ]
   }
 
-  const flipToFront = () => {
-    console.log('flip to front!')
+  const flipToFront = (flag) => {
+    console.log('flip to front!',  flag)
     Animated.timing( flipAnimation, {
       toValue: 180,
       duration: 300,
@@ -73,9 +73,8 @@ const Flag = (props) => {
     }
       ).start();
   }
-
   const flipToBack = () => {
-    console.log('flip to back!')
+    // console.log('flip to back!', e.target.value)
     Animated.timing( flipAnimation, {
       toValue: 0,
       duration: 300,
@@ -83,14 +82,18 @@ const Flag = (props) => {
     }
       ).start();
   }
-  console.log('flipRotation', flipRotation)
+
   return (
     <View >
-      <Pressable onPress={() => !!flipRotation ? flipToBack() : flipToFront()}>
+      <Pressable onPress={() => {
+        props.handleOnPress
+        flipToFront(props.flag)
+      }}>
         <Animated.Image
+          
           style={{...styles.imageFront, ...flipToBackStyle}}
           source={{
-            uri: `https://flagcdn.com/160x120/${props.flag.code}.png`
+            uri: `https://flagcdn.com/160x120/${props.flag.value.code}.png`
           }}       
         />
         <Animated.Image
