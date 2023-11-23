@@ -40,10 +40,14 @@ const styles = StyleSheet.create({
 const Flag = (props) => {
   const [flipRotation, setFlipRotation] = React.useState(0)
   const flipAnimation = React.useRef(new Animated.Value(0)).current;
-  
+  const [isFlipped, setIsFlipped] = React.useState(false);
+
   flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
 
-
+  useEffect(() => {
+    setIsFlipped(props.isFlipped)
+    if(!props.flag.isFlipped){flipToBack()}
+  },[isFlipped])
 
   const flipToFrontStyle = {
     transform: [
@@ -85,10 +89,7 @@ const Flag = (props) => {
 
   return (
     <View >
-      <Pressable onPress={() => {
-        props.handleOnPress
-        flipToFront(props.flag)
-      }}>
+      <Pressable onPress={props.handleOnPress}>
         <Animated.Image
           
           style={{...styles.imageFront, ...flipToBackStyle}}

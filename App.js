@@ -21,6 +21,7 @@ export default function App() {
   
   useEffect(() => {
     if (flippedCount % 2 === 0 && firstFlippedCard) {
+      console.log('no match!')
       const secondCard = cards.find((card) => card.isFlipped && !card.matched);
       if (secondCard && secondCard.value !== firstFlippedCard.value) {
         // Cards do not match, flip them back
@@ -37,18 +38,23 @@ export default function App() {
 
 
   const handleOnPress = (id) => {
+    console.log('pressed', id)
     setFlippedCount(flippedCount + 1);
-
-    setCards((prevCards) => {
-      prevCards.map((card) => {
-        card.id === id ? {...card, isFlipped: true}: card
-      })
-    })
-
+    setCards((prevCards) => 
+      prevCards.map((card) => 
+        card.id === id ? {...card, isFlipped: true} : card
+      )
+    )
+    
     if (flippedCount % 2 === 0) {
-      setFirstFlippedCard(cards.find((card) => card.isFlipped))
-    }
+      console.log('first card')
+      setCards((prevCards) => {
+        const firstFlippedCard = prevCards.find((card) => card.isFlipped);
+        setFirstFlippedCard(firstFlippedCard);
+        return prevCards; // Ensure to return the updated state
+    })
   }
+}
 
 
   return (
@@ -57,7 +63,7 @@ export default function App() {
       {cards.map(flag => {
         return <Flag 
         flag={flag}
-        handleOnPress={handleOnPress}
+        handleOnPress={() => handleOnPress(flag.id)}
         isFlipped={flag.isFlipped}
         />
       })}
