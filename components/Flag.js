@@ -45,9 +45,9 @@ const Flag = (props) => {
   flipAnimation.addListener( ( { value } ) => setFlipRotation(value) );
 
   useEffect(() => {
-    setIsFlipped(props.isFlipped)
-    if(!props.flag.isFlipped){flipToBack()}
-  },[isFlipped])
+    console.log('props.flag.isFlipped', props.flag.isFlipped)
+    !props.flag.isFlipped ? flipToBack() : flipToFront()
+  },[props.flag.isFlipped])
 
   const flipToFrontStyle = {
     transform: [
@@ -67,8 +67,7 @@ const Flag = (props) => {
     ]
   }
 
-  const flipToFront = (flag) => {
-    console.log('flip to front!',  flag)
+  const flipToFront = () => {
     Animated.timing( flipAnimation, {
       toValue: 180,
       duration: 300,

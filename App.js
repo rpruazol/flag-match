@@ -21,17 +21,22 @@ export default function App() {
   
   useEffect(() => {
     if (flippedCount % 2 === 0 && firstFlippedCard) {
-      console.log('no match!')
-      const secondCard = cards.find((card) => card.isFlipped && !card.matched);
+      const secondCard = cards.find((card) => card.isFlipped && !card.matched && firstFlippedCard.id !== card.id );
+      console.log('secondCard', secondCard)
+      console.log(firstFlippedCard)
       if (secondCard && secondCard.value !== firstFlippedCard.value) {
         // Cards do not match, flip them back
-        setTimeout(() => {
+        console.log('no match!')
+        setTimeout(() => 
           setCards((prevCards) =>
             prevCards.map((card) =>
               card.isFlipped ? { ...card, isFlipped: false } : card
             )
-          );
-        }, 1000);
+          )
+        , 1000);
+        console.log(cards)
+        setFlippedCount(0)
+        setFirstFlippedCard(null)
       }
     }
   }, [flippedCount]);
